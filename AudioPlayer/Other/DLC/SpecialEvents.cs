@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Map;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Scp330;
 using Exiled.Events.EventArgs.Server;
 using PlayerRoles;
 using static AudioPlayer.Plugin;
@@ -19,6 +20,8 @@ internal class SpecialEvents
         Exiled.Events.Handlers.Server.RespawningTeam += OnRespawningTeam;
 
         Exiled.Events.Handlers.Map.AnnouncingNtfEntrance += OnAnnouncingNtfEntrance;
+
+        Exiled.Events.Handlers.Scp330.InteractingScp330 += OnInteractingScp330;
     }
 
     public void OnVerified(VerifiedEventArgs ev)
@@ -37,11 +40,6 @@ internal class SpecialEvents
     public void OnRoundStarted()
     {
         Log.Debug("Round started - playing random round start clip");
-        Log.Debug("Round start clips:");
-        foreach (var clip in plugin.Config.RoundStartClip)
-        {
-            Log.Debug($"-- {clip.Path}");
-        }
         Extensions.PlayRandomAudioFile(plugin.Config.RoundStartClip, "RoundStartClip");
     }
 
@@ -67,5 +65,11 @@ internal class SpecialEvents
     public void OnAnnouncingNtfEntrance(AnnouncingNtfEntranceEventArgs ev)
     {
         ev.IsAllowed = plugin.Config.CassieMtfSpawn;
+    }
+
+    public void OnInteractingScp330(InteractingScp330EventArgs ev)
+    {
+        Log.Debug("Candy taken");
+        Extensions.PlayRandomAudioFile(plugin.Config.CandyTakenClip, "CandyTakenClip");
     }
 }

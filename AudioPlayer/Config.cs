@@ -230,4 +230,24 @@ public class Config : IConfig
             Volume = 100,
         },
     };
+
+    public List<AudioFile> CandyTakenClip { get; private set; } = new()
+    {
+        new AudioFile()
+        {
+            Path = "/my/path/to/file.ogg",
+            BotId = 100,
+            Loop = false,
+            VoiceChatChannel = VoiceChat.VoiceChatChannel.Intercom,
+            Volume = 100,
+        },
+        new AudioFile()
+        {
+            Path = "/my/path/to/file1.ogg",
+            BotId = 101,
+            Loop = true,
+            VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
+            Volume = 100,
+        },
+    };
 }
