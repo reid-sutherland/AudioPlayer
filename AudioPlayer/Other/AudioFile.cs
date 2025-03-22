@@ -18,25 +18,41 @@ public class AudioFile
 
     public void Play()
     {
-        try
+        if (!string.IsNullOrEmpty(Path))
         {
-            AudioPlayer.PlayAudioFromFile(Path, Loop, Volume, VoiceChatChannel);
+            try
+            {
+                Log.Debug($"Playing clip at: {Path}");
+                AudioPlayer.PlayAudioFromFile(Path, Loop, Volume, VoiceChatChannel);
+            }
+            catch (Exception ex)
+            {
+                Log.Debug(ex.ToString());
+            }
         }
-        catch (Exception ex)
+        else
         {
-            Log.Debug(ex.ToString());
+            Log.Debug("Skipping empty clip");
         }
     }
 
     public void PlayFromFilePlayer(List<int> players)
     {
-        try
+        if (!string.IsNullOrEmpty(Path))
         {
-            AudioPlayer.PlayFromFilePlayer(players, Path, Loop, Volume, VoiceChatChannel);
+            try
+            {
+                Log.Debug($"Playing clip at: {Path}");
+                AudioPlayer.PlayFromFilePlayer(players, Path, Loop, Volume, VoiceChatChannel);
+            }
+            catch (Exception ex)
+            {
+                Log.Debug(ex.ToString());
+            }
         }
-        catch (Exception ex)
+        else
         {
-            Log.Debug(ex.ToString());
+            Log.Debug("Skipping empty clip");
         }
     }
 
@@ -48,7 +64,10 @@ public class AudioFile
         }
         catch (Exception ex)
         {
-            Log.Debug(ex.ToString());
+            if (!string.IsNullOrEmpty(Path))
+            {
+                Log.Debug(ex.ToString());
+            }
         }
     }
 }

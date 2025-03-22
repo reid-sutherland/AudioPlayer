@@ -1,4 +1,5 @@
-﻿using Exiled.Events.EventArgs.Map;
+﻿using Exiled.API.Features;
+using Exiled.Events.EventArgs.Map;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
 using PlayerRoles;
@@ -20,15 +21,24 @@ internal class SpecialEvents
         Exiled.Events.Handlers.Map.AnnouncingNtfEntrance += OnAnnouncingNtfEntrance;
     }
 
-    void OnRoundStarted() => Extensions.PlayRandomAudioFile(plugin.Config.RoundStartClip, "RoundStartClip");
-    
-    void OnRoundEnded(RoundEndedEventArgs ev) => Extensions.PlayRandomAudioFile(plugin.Config.RoundEndClip, "RoundEndClip");
-    
-    void OnVerified(VerifiedEventArgs ev) => Extensions.PlayRandomAudioFileFromPlayer(plugin.Config.PlayerConnectedServer, ev.Player, "PlayerConnectedServer");
-    
-    void OnAnnouncingNtfEntrance(AnnouncingNtfEntranceEventArgs ev) => ev.IsAllowed = plugin.Config.CassieMtfSpawn;
-    
-    void OnDied(DiedEventArgs ev)
+    public void OnRoundStarted()
+    {
+        Log.Debug("Round started - playing random round start clip");
+        Log.Debug("Round start clips:");
+        foreach (var clip in plugin.Config.RoundStartClip)
+        {
+            Log.Debug($"-- {clip.Path}");
+        }
+        Extensions.PlayRandomAudioFile(plugin.Config.RoundStartClip, "RoundStartClip");
+    }
+
+    public void OnRoundEnded(RoundEndedEventArgs ev) => Extensions.PlayRandomAudioFile(plugin.Config.RoundEndClip, "RoundEndClip");
+
+    public void OnVerified(VerifiedEventArgs ev) => Extensions.PlayRandomAudioFileFromPlayer(plugin.Config.PlayerConnectedServer, ev.Player, "PlayerConnectedServer");
+
+    public void OnAnnouncingNtfEntrance(AnnouncingNtfEntranceEventArgs ev) => ev.IsAllowed = plugin.Config.CassieMtfSpawn;
+
+    public void OnDied(DiedEventArgs ev)
     {
         if (ev.Player == null || ev.Attacker == null || ev.DamageHandler.Type == Exiled.API.Enums.DamageType.Unknown) return;
 
@@ -36,11 +46,17 @@ internal class SpecialEvents
         Extensions.PlayRandomAudioFileFromPlayer(plugin.Config.PlayerDiedKillerClip, ev.Attacker, "PlayerDiedKillerClip");
     }
 
-    void OnRespawningTeam(RespawningTeamEventArgs ev)
+    public void OnRespawningTeam(RespawningTeamEventArgs ev)
     {
-        if (ev.NextKnownTeam == Faction.FoundationStaff) 
-            Extensions.PlayRandomAudioFile(plugin.Config.ChaosSpawnClip, "ChaosSpawnClip");
-        else 
+        Log.Debug($"Team is respawning: {ev.NextKnownTeam}");
+        Log.Debug(ev.ToString());
+        if (ev.NextKnownTeam == Faction.FoundationStaff)
+        {
             Extensions.PlayRandomAudioFile(plugin.Config.MtfSpawnClip, "MtfSpawnClip");
+        }
+        else if (ev.NextKnownTeam == Faction.FoundationEnemy)
+        {
+            Extensions.PlayRandomAudioFile(plugin.Config.ChaosSpawnClip, "ChaosSpawnClip");
+        }
     }
 }

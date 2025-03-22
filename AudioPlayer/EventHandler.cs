@@ -23,6 +23,7 @@ internal class EventHandler
         AudioPlayerBase.OnFinishedTrack += OnFinishedTrackLog;
         Log.Warn($"SCPSLAudioApi Debug Enabled!");
     }
+
     internal void OnDestroying(DestroyingEventArgs ev)
     {
         if (AudioPlayerList.FirstOrDefault(p => p.Value.Player == ev.Player) is KeyValuePair<int, AudioPlayerBot> container)
@@ -39,6 +40,7 @@ internal class EventHandler
         {
             foreach (var cfg in plugin.Config.BotsList)
             {
+                Log.Debug($"Spawning 'dummy' bot: {cfg.BotName} - {cfg.BotId}");
                 AudioPlayerBot.SpawnDummy(cfg.BotName, cfg.BadgeText, cfg.BadgeColor, cfg.BotId);
             }
         }

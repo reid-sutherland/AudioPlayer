@@ -43,7 +43,7 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
     public List<AudioFile> RoundStartClip { get; private set; } = new()
     {
@@ -62,7 +62,7 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
     public List<AudioFile> RoundEndClip { get; private set; } = new()
     {
@@ -81,7 +81,7 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
     [Description("Play CASSIE when the MTF arrives?")]
     public bool CassieMtfSpawn { get; private set; } = true;
@@ -102,7 +102,7 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
     public List<AudioFile> ChaosSpawnClip { get; private set; } = new()
     {
@@ -121,7 +121,7 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
     public List<AudioFile> WarheadStartingClip { get; private set; } = new()
     {
@@ -140,7 +140,7 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
 
     [Description("Stop audio playback if the warhead has been disabled? (true = yes, false = no)")]
@@ -162,7 +162,7 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
     public List<AudioFile> PlayerDiedTargetClip { get; private set; } = new()
     {
@@ -181,7 +181,7 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
     public List<AudioFile> PlayerDiedKillerClip { get; private set; } = new()
     {
@@ -200,7 +200,7 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
     public List<AudioFile> PlayerConnectedServer { get; private set; } = new()
     {
@@ -219,6 +219,6 @@ public class Config : IConfig
             Loop = true,
             VoiceChatChannel = VoiceChat.VoiceChatChannel.Proximity,
             Volume = 100,
-        }
+        },
     };
 }

@@ -6,6 +6,10 @@ using SCPSLAudioApi;
 using System;
 using System.Collections.Generic;
 using System.IO;
+//using PlayerEvents = Exiled.Events.Handlers.Player;
+//using ServerEvents = Exiled.Events.Handlers.Server;
+//using MapEvents = Exiled.Events.Handlers.Map;
+using static RoundSummary;
 
 namespace AudioPlayer;
 
@@ -21,6 +25,7 @@ public class Plugin : Plugin<Config>
     public static Plugin plugin { get; private set; }
 
     internal static EventHandler EventHandlers;
+    //internal static SpecialEvents SpecialEvents { get; private set; }
     internal static SpecialEvents SpecialEvents;
     internal static WarheadEvents WarheadEvents;
     internal static LobbyEvents LobbyEvents;
@@ -33,9 +38,11 @@ public class Plugin : Plugin<Config>
         {
             plugin = this;
 
-            Extensions.EmptyClip = new AudioFile();
-            Extensions.EmptyClip.BotId = -1;
-            Extensions.EmptyClip.Path = "";
+            Extensions.EmptyClip = new AudioFile
+            {
+                BotId = -1,
+                Path = "",
+            };
 
             EventHandlers = new();
 
@@ -55,6 +62,7 @@ public class Plugin : Plugin<Config>
         }
         base.OnEnabled();
     }
+
     public override void OnDisabled()
     {
         EventHandlers = null;

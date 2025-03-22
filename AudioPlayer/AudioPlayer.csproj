@@ -1,4 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Version>4.2.0</Version>
+		<OutputType>Library</OutputType>
+		<AssemblyName>$(ProjectName)</AssemblyName>
+		<RootNamespace>$(ProjectName)</RootNamespace>
+		<LangVersion>12.0</LangVersion>
+		<Nullable>disable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
+	</PropertyGroup>
+
+	<!-- For development: copy output dll directly to EXILED path -->
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Copy SourceFiles="$(ProjectDir)bin\Debug\$(ProjectName).dll" DestinationFolder="$(EXILED_PLUGINS)" SkipUnchangedFiles="false" />
+	</Target>
+
+	<PropertyGroup>
+		<RepositoryUrl>https://github.com/reid-sutherland/AudioPlayer</RepositoryUrl>
+	</PropertyGroup>
+
+	<Import Project="../Plugin.props" />
+
+	<ItemGroup>
+		<PackageReference Include="ExMod.Exiled" Version="9.5.0" />
+		<PackageReference Include="Lib.Harmony" Version="2.3.5" />
+		<PackageReference Include="StyleCop.Analyzers" Version="$(StyleCopVersion)" IncludeAssets="All" PrivateAssets="All" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp-firstpass" HintPath="$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll" Private="false" />
+		<Reference Include="Assembly-CSharp-Publicized" HintPath="$(EXILED_REFERENCES)\Assembly-CSharp-Publicized.dll" Private="false" />
+		<Reference Include="Mirror" HintPath="$(EXILED_REFERENCES)\Mirror.dll" Private="false" />
+		<Reference Include="UnityEngine" HintPath="$(EXILED_REFERENCES)\UnityEngine.dll" Private="false" />
+		<Reference Include="UnityEngine.CoreModule" HintPath="$(EXILED_REFERENCES)\UnityEngine.CoreModule.dll" Private="false" />
+		<Reference Include="UnityEngine.PhysicsModule" HintPath="$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll" Private="false" />
+		<Reference Include="UnityEngine.UnityWebRequestModule" HintPath="$(EXILED_REFERENCES)\UnityEngine.UnityWebRequestModule.dll" Private="false" />
+		<Reference Include="YamlDotNet" HintPath="$(EXILED_REFERENCES)\YamlDotNet.dll" Private="false" />
+
+		<Reference Include="NVorbis" HintPath="$(EXILED_PLUGINS)\dependencies\NVorbis.dll" Private="false" />
+		<Reference Include="SCPSLAudioApi" HintPath="$(EXILED_PLUGINS)\dependencies\SCPSLAudioApi.dll" Private="false" />
+		<!--
+		<package id="Newtonsoft.Json" version="9.0.1" targetFramework="net481" />
+        <package id="System.Buffers" version="4.4.0" targetFramework="net481" />
+		<package id="System.Memory" version="4.5.3" targetFramework="net481" />
+        <package id="System.Numerics.Vectors" version="4.4.0" targetFramework="net481" />
+        <package id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" targetFramework="net481" />
+        <package id="System.ValueTuple" version="4.5.0" targetFramework="net481" />
+        <package id="Xabe.FFmpeg" version="5.2.6" targetFramework="net481" />
+		-->
+	</ItemGroup>
+
+</Project>
+
+<!--
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -9,31 +66,16 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AudioPlayer</RootNamespace>
     <AssemblyName>AudioPlayer</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+-->
+
+	<!--<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />-->
+<!--
   <ItemGroup>
     <Compile Include="API\Container\AudioPlayerBot.cs" />
     <Compile Include="Commands\Audio.cs" />
@@ -545,5 +587,4 @@
       <HintPath>C:\Users\Rysik5318\Desktop\EXILED\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-</Project>
+  -->

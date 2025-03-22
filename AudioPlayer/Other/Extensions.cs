@@ -13,44 +13,46 @@ public static class Extensions
     {
         if (Directory.Exists(plugin.AudioPath))
         {
+            Log.Debug($"Audio directory exists: {plugin.AudioPath}");
             return;
         }
 
         Directory.CreateDirectory(plugin.AudioPath);
+        Log.Debug($"Created audio directory: {plugin.AudioPath}");
     }
 
     public static AudioFile EmptyClip;
 
+    public static void LogError(string msg)
+    {
+        if (plugin.Config.Debug)
+        {
+            Log.Error(msg);
+        }
+        else
+        {
+            Log.Debug(msg);
+        }
+    }
+
     public static AudioFile GetRandomAudioClip(List<AudioFile> audioClips, string audioClipsName)
     {
-        if (audioClips == null)
+        if (audioClips == null || audioClips.IsEmpty())
         {
-            if (plugin.Config.Debug)
-            {
-                throw new ArgumentException($"{audioClipsName} is null");
-            }
-            else
-            {
-                return EmptyClip;
-            }
+            Log.Debug($"No clips found in: {audioClipsName}");
+            return EmptyClip;
         }
 
         foreach (AudioFile audioFile in audioClips.Where(clip => !AudioPlayerList.ContainsKey(clip.BotId)).ToArray())
         {
             audioClips.Remove(audioFile);
-            Log.Debug($"Removed AudioClip from {audioClipsName} because AudioPlayerBot is not present on the server");
+            LogError($"Removed AudioClip from {audioClipsName} because AudioPlayerBot is not present on the server");
         }
 
         if (!audioClips.Any())
         {
-            if (plugin.Config.Debug)
-            {
-                throw new ArgumentException($"I didn't find any available AudioClips in {audioClipsName}, maybe you didn't specify AudioPlayerBot in the config or didn't spawn an AudioPlayerBot");
-            }
-            else
-            {
-                return EmptyClip;
-            }
+            LogError($"I didn't find any available AudioClips in {audioClipsName}, maybe you didn't specify AudioPlayerBot in the config or didn't spawn an AudioPlayerBot");
+            return EmptyClip;
         }
 
         return audioClips.RandomItem();
@@ -76,18 +78,18 @@ public static class Extensions
     {
         if (File.Exists(path))
         {
-            Log.Debug("Full path was specified, skipping the check.");
+            Log.Debug("Absolute path given, found file");
             return path;
         }
         else if (File.Exists(Path.Combine(plugin.AudioPath, path)))
         {
             path = Path.Combine(plugin.AudioPath, path);
-            Log.Debug("An incomplete path was given, I found the .ogg file in the audio folder.");
+            Log.Debug("Relative path given, found file in audio folder");
             return path;
         }
         else
         {
-            Log.Debug($"I didn't find the file.\nPath: {path}");
+            Log.Debug($"File was not found: {path}");
             return path;
         }
     }
