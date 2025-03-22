@@ -11,14 +11,27 @@ internal class SpecialEvents
 {
     public SpecialEvents()
     {
-        Exiled.Events.Handlers.Player.Died += OnDied;
         Exiled.Events.Handlers.Player.Verified += OnVerified;
+        Exiled.Events.Handlers.Player.Died += OnDied;
 
         Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
         Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
         Exiled.Events.Handlers.Server.RespawningTeam += OnRespawningTeam;
 
         Exiled.Events.Handlers.Map.AnnouncingNtfEntrance += OnAnnouncingNtfEntrance;
+    }
+
+    public void OnVerified(VerifiedEventArgs ev)
+    {
+        Extensions.PlayRandomAudioFileFromPlayer(plugin.Config.PlayerConnectedServer, ev.Player, "PlayerConnectedServer");
+    }
+
+    public void OnDied(DiedEventArgs ev)
+    {
+        if (ev.Player == null || ev.Attacker == null || ev.DamageHandler.Type == Exiled.API.Enums.DamageType.Unknown) return;
+
+        Extensions.PlayRandomAudioFileFromPlayer(plugin.Config.PlayerDiedTargetClip, ev.Player, "PlayerDiedTargetClip");
+        Extensions.PlayRandomAudioFileFromPlayer(plugin.Config.PlayerDiedKillerClip, ev.Attacker, "PlayerDiedKillerClip");
     }
 
     public void OnRoundStarted()
@@ -32,18 +45,9 @@ internal class SpecialEvents
         Extensions.PlayRandomAudioFile(plugin.Config.RoundStartClip, "RoundStartClip");
     }
 
-    public void OnRoundEnded(RoundEndedEventArgs ev) => Extensions.PlayRandomAudioFile(plugin.Config.RoundEndClip, "RoundEndClip");
-
-    public void OnVerified(VerifiedEventArgs ev) => Extensions.PlayRandomAudioFileFromPlayer(plugin.Config.PlayerConnectedServer, ev.Player, "PlayerConnectedServer");
-
-    public void OnAnnouncingNtfEntrance(AnnouncingNtfEntranceEventArgs ev) => ev.IsAllowed = plugin.Config.CassieMtfSpawn;
-
-    public void OnDied(DiedEventArgs ev)
+    public void OnRoundEnded(RoundEndedEventArgs ev)
     {
-        if (ev.Player == null || ev.Attacker == null || ev.DamageHandler.Type == Exiled.API.Enums.DamageType.Unknown) return;
-
-        Extensions.PlayRandomAudioFileFromPlayer(plugin.Config.PlayerDiedTargetClip, ev.Player, "PlayerDiedTargetClip");
-        Extensions.PlayRandomAudioFileFromPlayer(plugin.Config.PlayerDiedKillerClip, ev.Attacker, "PlayerDiedKillerClip");
+        Extensions.PlayRandomAudioFile(plugin.Config.RoundEndClip, "RoundEndClip");
     }
 
     public void OnRespawningTeam(RespawningTeamEventArgs ev)
@@ -58,5 +62,10 @@ internal class SpecialEvents
         {
             Extensions.PlayRandomAudioFile(plugin.Config.ChaosSpawnClip, "ChaosSpawnClip");
         }
+    }
+
+    public void OnAnnouncingNtfEntrance(AnnouncingNtfEntranceEventArgs ev)
+    {
+        ev.IsAllowed = plugin.Config.CassieMtfSpawn;
     }
 }
